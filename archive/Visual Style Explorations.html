@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Visual Style Explorations · Aspire AI Workshop</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #1a1a1a; }
+
+  /* Each artboard is a fixed 1280×720 stage that demonstrates the style.
+     We'll show three mini-slides per artboard: a statement, the harness
+     diagram, and the compounding visual. */
+
+  .style-stage {
+    width: 1280px;
+    height: 720px;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .style-stage > .panel {
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid rgba(0,0,0,0.06);
+  }
+  .style-stage > .panel:last-child { border-right: none; }
+
+  /* ════════════════════════════════════════════════════════════
+     STYLE 1 — BRUTALIST MONO
+     ════════════════════════════════════════════════════════════ */
+  .brutalist {
+    background: #F0EDE3;
+    color: #0A0A0A;
+    font-family: 'Geist Mono', monospace;
+  }
+  .brutalist .panel { padding: 36px 32px; }
+  .brutalist .meta {
+    font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: #0A0A0A; font-weight: 600; margin-bottom: 18px;
+    display: flex; justify-content: space-between;
+    border-bottom: 2px solid #0A0A0A; padding-bottom: 10px;
+  }
+  .brutalist .stmt-headline {
+    font-family: 'Geist', sans-serif;
+    font-weight: 900; font-size: 64px; line-height: 0.92;
+    letter-spacing: -0.04em; text-transform: uppercase;
+    margin-top: 60px;
+  }
+  .brutalist .stmt-headline .strike {
+    background: #0A0A0A; color: #F0EDE3; padding: 0 4px;
+  }
+  .brutalist .stmt-headline em { font-style: normal; background: #C8FF3D; padding: 1px 4px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .brutalist .stmt-foot {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    margin-top: 32px; padding-top: 12px; border-top: 1px solid #0A0A0A;
+  }
+  .brutalist .harness-wrap {
+    display: flex; flex-direction: column; align-items: center;
+    height: 100%; padding-top: 30px; gap: 38px;
+  }
+  .brutalist .harness-title {
+    font-family: 'Geist', sans-serif; font-weight: 900;
+    font-size: 32px; letter-spacing: -0.03em; text-transform: uppercase;
+  }
+  .brutalist .harness-fig {
+    position: relative; width: 240px; height: 240px;
+    border: 2px solid #0A0A0A;
+  }
+  .brutalist .harness-fig::before {
+    content: ""; position: absolute; inset: -8px; border: 1px solid #0A0A0A; pointer-events: none;
+  }
+  .brutalist .harness-fig .core {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: #C8FF3D; padding: 8px 14px;
+    font-weight: 700; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+    border: 2px solid #0A0A0A;
+  }
+  .brutalist .harness-fig .tag {
+    position: absolute; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+    background: #0A0A0A; color: #F0EDE3; padding: 3px 6px; font-weight: 600;
+  }
+  .brutalist .harness-fig .tag.t1 { top: -16px; left: 50%; transform: translateX(-50%); }
+  .brutalist .harness-fig .tag.t2 { top: 50%; right: -16px; transform: translate(50%, -50%); }
+  .brutalist .harness-fig .tag.t3 { bottom: -16px; left: 50%; transform: translateX(-50%); }
+  .brutalist .harness-fig .tag.t4 { top: 50%; left: -16px; transform: translate(-50%, -50%); }
+  .brutalist .cmp-wrap { padding: 50px 24px; height: 100%; display: flex; flex-direction: column; gap: 18px; }
+  .brutalist .cmp-row { display: flex; gap: 18px; align-items: flex-start; }
+  .brutalist .cmp-row .label {
+    font-family: 'Geist', sans-serif; font-weight: 900;
+    font-size: 22px; letter-spacing: -0.03em; text-transform: uppercase;
+    width: 110px; flex: none;
+  }
+  .brutalist .cmp-row .blocks { display: flex; flex-wrap: wrap; gap: 3px; align-items: flex-start; }
+  .brutalist .cmp-row .b { width: 14px; height: 14px; background: #0A0A0A; }
+  .brutalist .cmp-row .b.green { background: #C8FF3D; }
+  .brutalist .cmp-num { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 4px; }
+  .brutalist .cmp-cap {
+    margin-top: auto;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    border-top: 2px solid #0A0A0A; padding-top: 10px;
+  }
+
+  /* ════════════════════════════════════════════════════════════
+     STYLE 2 — CINEMATIC DARK
+     ════════════════════════════════════════════════════════════ */
+  .cinematic {
+    background: radial-gradient(ellipse at 50% 60%, #1a1d22 0%, #0a0b0e 70%);
+    color: #ECEAE3;
+    font-family: 'Inter', sans-serif;
+  }
+  .cinematic .panel { padding: 40px 36px; position: relative; }
+  .cinematic .panel { border-right: 1px solid rgba(255,255,255,0.06); }
+  .cinematic .meta {
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: rgba(236,234,227,0.4);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .cinematic .meta .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: #00FFB2;
+    box-shadow: 0 0 12px #00FFB2, 0 0 24px rgba(0,255,178,0.3);
+  }
+  .cinematic .stmt {
+    display: flex; flex-direction: column; height: 100%;
+    justify-content: center; align-items: flex-start;
+  }
+  .cinematic .stmt-headline {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400; font-size: 56px; line-height: 1.0;
+    letter-spacing: -0.02em;
+    background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.5) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .cinematic .stmt-headline em {
+    font-style: italic;
+    background: linear-gradient(180deg, #00FFB2 0%, #00C088 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .cinematic .stmt-headline .strike {
+    color: rgba(255,255,255,0.3); position: relative;
+  }
+  .cinematic .stmt-headline .strike::after {
+    content: ""; position: absolute; left: -2%; right: -2%; top: 56%;
+    height: 2px; background: #00FFB2; box-shadow: 0 0 8px #00FFB2;
+  }
+  .cinematic .stmt-foot {
+    margin-top: 28px; font-family: 'Geist Mono', monospace;
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(236,234,227,0.4);
+  }
+  .cinematic .harness-wrap {
+    display: flex; flex-direction: column; align-items: center;
+    height: 100%; padding-top: 60px; gap: 24px;
+  }
+  .cinematic .harness-title {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic; font-size: 36px; letter-spacing: -0.02em;
+  }
+  .cinematic .harness-fig {
+    position: relative; width: 260px; height: 260px;
+  }
+  .cinematic .harness-fig svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .cinematic .harness-fig .ring {
+    fill: none; stroke: rgba(255,255,255,0.18); stroke-width: 1;
+  }
+  .cinematic .harness-fig .arc {
+    fill: none; stroke: #00FFB2; stroke-width: 2.5;
+    stroke-linecap: round; stroke-dasharray: 80 720;
+    filter: drop-shadow(0 0 6px #00FFB2);
+    animation: cinOrbit 5s linear infinite;
+  }
+  @keyframes cinOrbit { to { stroke-dashoffset: -800; } }
+  .cinematic .harness-fig .core {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: 'DM Serif Display', serif; font-style: italic; font-size: 28px;
+  }
+  .cinematic .harness-fig .core::after {
+    content: ""; position: absolute; inset: -20px -8px; z-index: -1;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,255,178,0.35) 0%, transparent 70%);
+    animation: cinPulse 3s ease-in-out infinite;
+  }
+  @keyframes cinPulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.15); } }
+  .cinematic .harness-fig .nd {
+    position: absolute; transform: translate(-50%, -50%);
+    font-family: 'Geist Mono', monospace; font-size: 9px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(236,234,227,0.6);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .cinematic .harness-fig .nd::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%;
+    background: #00FFB2; box-shadow: 0 0 6px #00FFB2;
+  }
+  .cinematic .cmp-wrap {
+    height: 100%; padding: 50px 28px;
+    display: flex; flex-direction: column; gap: 28px;
+  }
+  .cinematic .cmp-side { display: flex; flex-direction: column; gap: 10px; }
+  .cinematic .cmp-side .h {
+    font-family: 'DM Serif Display', serif; font-style: italic;
+    font-size: 22px;
+  }
+  .cinematic .cmp-side svg { width: 100%; height: 110px; overflow: visible; }
+  .cinematic .cmp-side .num-row {
+    display: flex; align-items: baseline; gap: 8px;
+    font-family: 'Geist Mono', monospace; font-size: 9px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(236,234,227,0.5);
+  }
+  .cinematic .cmp-side .num-row .n {
+    font-family: 'DM Serif Display', serif; font-style: italic;
+    font-size: 28px; color: #ECEAE3;
+  }
+  .cinematic .cmp-side.harness .num-row .n {
+    color: #00FFB2; text-shadow: 0 0 12px rgba(0,255,178,0.5);
+  }
+
+  /* ════════════════════════════════════════════════════════════
+     STYLE 3 — SWISS GRID
+     ════════════════════════════════════════════════════════════ */
+  .swiss {
+    background: #FFFFFF;
+    color: #111;
+    font-family: 'Inter', sans-serif;
+  }
+  .swiss .panel { padding: 36px 32px; position: relative; }
+  .swiss .panel::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0;
+    height: 4px; background: #E63946;
+  }
+  .swiss .meta {
+    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: #111; font-weight: 600;
+    display: flex; justify-content: space-between;
+    padding-top: 18px;
+  }
+  .swiss .meta .num { color: #E63946; }
+  .swiss .stmt-headline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700; font-size: 52px; line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-top: 90px;
+  }
+  .swiss .stmt-headline .strike { text-decoration: line-through; text-decoration-color: #E63946; text-decoration-thickness: 3px; color: #999; }
+  .swiss .stmt-headline em { font-style: normal; color: #E63946; font-weight: 700; }
+  .swiss .stmt-foot {
+    margin-top: 28px; padding-top: 14px; border-top: 1px solid #111;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    font-weight: 500;
+  }
+  .swiss .harness-wrap {
+    height: 100%; padding-top: 70px;
+    display: flex; flex-direction: column; align-items: center; gap: 26px;
+  }
+  .swiss .harness-title {
+    font-weight: 700; font-size: 32px; letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+  .swiss .harness-title .red { color: #E63946; }
+  .swiss .harness-fig {
+    position: relative; width: 260px; height: 260px;
+  }
+  .swiss .harness-fig svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .swiss .harness-fig .ring { fill: none; stroke: #111; stroke-width: 1.5; }
+  .swiss .harness-fig .core {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-weight: 700; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase;
+    background: #E63946; color: #fff; padding: 8px 14px;
+  }
+  .swiss .harness-fig .nd {
+    position: absolute; transform: translate(-50%, -50%);
+    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    font-weight: 600; background: #fff; padding: 3px 6px;
+    border: 1px solid #111;
+  }
+  .swiss .cmp-wrap { height: 100%; padding: 70px 24px 40px; display: flex; flex-direction: column; gap: 22px; }
+  .swiss .cmp-row {
+    display: grid; grid-template-columns: 90px 1fr auto; gap: 16px;
+    align-items: center; padding-bottom: 18px; border-bottom: 1px solid #111;
+  }
+  .swiss .cmp-row .h {
+    font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .swiss .cmp-row.harness .h { color: #E63946; }
+  .swiss .cmp-row .bar {
+    height: 14px; background: #111; position: relative;
+  }
+  .swiss .cmp-row.harness .bar { background: #E63946; }
+  .swiss .cmp-row .stat {
+    font-weight: 700; font-size: 24px; letter-spacing: -0.03em;
+  }
+  .swiss .cmp-row.harness .stat { color: #E63946; }
+  .swiss .cmp-cap {
+    margin-top: auto; font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; font-weight: 600; color: #666;
+  }
+
+  /* ════════════════════════════════════════════════════════════
+     STYLE 4 — TECH-TERMINAL
+     ════════════════════════════════════════════════════════════ */
+  .terminal {
+    background: #0C0E0B;
+    color: #C5E8B7;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .terminal .panel { padding: 30px 28px; border-right: 1px solid rgba(197,232,183,0.12); }
+  .terminal .meta {
+    font-size: 10px; letter-spacing: 0.1em; color: rgba(197,232,183,0.5);
+    display: flex; justify-content: space-between;
+    border-bottom: 1px solid rgba(197,232,183,0.12);
+    padding-bottom: 10px; margin-bottom: 18px;
+  }
+  .terminal .meta .blink {
+    width: 8px; height: 14px; background: #BFFF4D;
+    animation: termBlink 1s steps(2) infinite; display: inline-block;
+  }
+  @keyframes termBlink { 50% { opacity: 0; } }
+  .terminal .prompt { color: #BFFF4D; }
+  .terminal .dim { color: rgba(197,232,183,0.4); }
+  .terminal .stmt-headline {
+    font-size: 22px; line-height: 1.4; margin-top: 18px;
+  }
+  .terminal .stmt-headline .strike {
+    text-decoration: line-through; color: rgba(197,232,183,0.35);
+  }
+  .terminal .stmt-headline em {
+    font-style: normal; color: #BFFF4D; background: rgba(191,255,77,0.08); padding: 0 4px;
+  }
+  .terminal .stmt-block {
+    margin-top: 22px; padding-left: 12px;
+    border-left: 2px solid #BFFF4D;
+    font-size: 11px; color: rgba(197,232,183,0.6); line-height: 1.6;
+  }
+  .terminal .stmt-foot {
+    margin-top: 24px; font-size: 10px; color: rgba(197,232,183,0.45);
+  }
+  .terminal pre { font-family: inherit; font-size: 11px; line-height: 1.4; white-space: pre; }
+  .terminal .harness-wrap {
+    height: 100%; display: flex; flex-direction: column;
+    gap: 14px;
+  }
+  .terminal .harness-ascii { color: rgba(197,232,183,0.85); }
+  .terminal .harness-ascii .core { color: #BFFF4D; }
+  .terminal .cmp-wrap { height: 100%; display: flex; flex-direction: column; gap: 16px; }
+  .terminal .cmp-block { font-size: 10px; line-height: 1.4; }
+  .terminal .cmp-block .h {
+    color: #BFFF4D; font-size: 11px; letter-spacing: 0.1em;
+    margin-bottom: 6px; text-transform: uppercase;
+  }
+  .terminal .cmp-block.builder .h { color: rgba(197,232,183,0.85); }
+  .terminal .cmp-block .bars { color: rgba(197,232,183,0.85); white-space: pre; }
+  .terminal .cmp-block .total { color: #BFFF4D; font-size: 11px; margin-top: 6px; }
+  .terminal .cmp-block.builder .total { color: rgba(197,232,183,0.85); }
+
+  /* Style label that sits above each artboard inside the canvas */
+  .style-label {
+    position: absolute;
+    top: -36px; left: 0;
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.65); font-weight: 500;
+  }
+  .style-label .name {
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600; font-size: 14px;
+    letter-spacing: -0.005em; text-transform: none;
+    margin-right: 14px;
+  }
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+
+<script type="text/babel">
+const { DesignCanvas, DCSection, DCArtboard } = window;
+
+// ---- Reusable harness diagram (positions calculated for each style) ----
+function HarnessRingSwiss() {
+  // 5 nodes around a 260px circle, radius 100 from center (130,130)
+  const cx = 130, cy = 130, r = 100;
+  const labels = ['PROMPTS', 'TOOLS', 'MEMORY', 'TRIGGERS', 'GUARDRAILS'];
+  return (
+    <div className="harness-fig">
+      <svg viewBox="0 0 260 260">
+        <circle className="ring" cx={cx} cy={cy} r={r} />
+      </svg>
+      <span className="core">Model</span>
+      {labels.map((l, i) => {
+        const a = (-90 + i * 72) * Math.PI / 180;
+        const x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r;
+        return <span className="nd" key={l} style={{ left: x, top: y }}>{l}</span>;
+      })}
+    </div>
+  );
+}
+function HarnessRingCinematic() {
+  const cx = 130, cy = 130, r = 100;
+  const labels = ['Prompts', 'Tools', 'Memory', 'Triggers', 'Guardrails'];
+  return (
+    <div className="harness-fig">
+      <svg viewBox="0 0 260 260">
+        <circle className="ring" cx={cx} cy={cy} r={r} />
+        <circle className="arc" cx={cx} cy={cy} r={r} />
+      </svg>
+      <span className="core">Model</span>
+      {labels.map((l, i) => {
+        const a = (-90 + i * 72) * Math.PI / 180;
+        const x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r;
+        return <span className="nd" key={l} style={{ left: x, top: y }}>{l}</span>;
+      })}
+    </div>
+  );
+}
+
+// ---- Artboards ----
+
+// 1) BRUTALIST MONO
+function BrutalistArtboard() {
+  return (
+    <div className="style-stage brutalist">
+      <div className="panel">
+        <div className="meta"><span>STMT // 02</span><span>NOT HYPE</span></div>
+        <div className="stmt-headline">
+          AI is not <span className="strike">hype</span>.<br/>
+          It's a <em>shift in how<br/>work gets done.</em>
+        </div>
+        <div className="stmt-foot">Aspire / Leadership / 2026 — Workshop I</div>
+      </div>
+      <div className="panel">
+        <div className="meta"><span>FIG // 12</span><span>HARNESS</span></div>
+        <div className="harness-wrap">
+          <div className="harness-title">A Harness</div>
+          <div className="harness-fig">
+            <span className="core">Model</span>
+            <span className="tag t1">Prompts</span>
+            <span className="tag t2">Tools</span>
+            <span className="tag t3">Memory</span>
+            <span className="tag t4">Triggers</span>
+          </div>
+        </div>
+      </div>
+      <div className="panel">
+        <div className="meta"><span>FIG // 10</span><span>COMPOUND</span></div>
+        <div className="cmp-wrap">
+          <div className="cmp-row">
+            <div className="label">Builder</div>
+            <div>
+              <div className="blocks">
+                {Array.from({length: 12}).map((_, i) => <span className="b" key={i}/>)}
+              </div>
+              <div className="cmp-num">12 UNITS</div>
+            </div>
+          </div>
+          <div className="cmp-row">
+            <div className="label">Harness</div>
+            <div>
+              <div className="blocks">
+                {Array.from({length: 31}).map((_, i) => <span className={"b" + (i >= 15 ? " green" : "")} key={i}/>)}
+              </div>
+              <div className="cmp-num">31 UNITS</div>
+            </div>
+          </div>
+          <div className="cmp-cap">One System // Exponential</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 2) CINEMATIC DARK
+function CinematicArtboard() {
+  return (
+    <div className="style-stage cinematic">
+      <div className="panel">
+        <div className="meta"><span className="dot"></span><span>02 / NOT HYPE</span></div>
+        <div className="stmt">
+          <div className="stmt-headline">
+            AI is not <span className="strike">hype</span>.<br/>
+            It's a <em>shift in how<br/>work gets done.</em>
+          </div>
+          <div className="stmt-foot">Aspire · Leadership · 2026</div>
+        </div>
+      </div>
+      <div className="panel">
+        <div className="meta"><span className="dot"></span><span>12 / HARNESS</span></div>
+        <div className="harness-wrap">
+          <div className="harness-title">A harness.</div>
+          <HarnessRingCinematic />
+        </div>
+      </div>
+      <div className="panel">
+        <div className="meta"><span className="dot"></span><span>10 / COMPOUND</span></div>
+        <div className="cmp-wrap">
+          <div className="cmp-side builder">
+            <div className="h">Builder</div>
+            <svg viewBox="0 0 280 110">
+              {Array.from({length: 12}).map((_, i) => (
+                <circle key={i} cx={20 + i * 22} cy={55} r={4} fill="rgba(236,234,227,0.7)" />
+              ))}
+            </svg>
+            <div className="num-row"><span className="n">12</span><span>units</span></div>
+          </div>
+          <div className="cmp-side harness">
+            <div className="h">Harness</div>
+            <svg viewBox="0 0 280 110">
+              {/* branching */}
+              {[
+                {x: 140, y: 12, lvl: 0},
+                {x: 90, y: 40, lvl: 1}, {x: 190, y: 40, lvl: 1},
+                {x: 60, y: 68, lvl: 2}, {x: 120, y: 68, lvl: 2}, {x: 160, y: 68, lvl: 2}, {x: 220, y: 68, lvl: 2},
+              ].map((n, i) => <circle key={i} cx={n.x} cy={n.y} r={4} fill="#00FFB2" filter="url(#glow)" />)}
+              {Array.from({length: 8}).map((_, i) => (
+                <circle key={"b"+i} cx={20 + i * 35} cy={96} r={3} fill="#00FFB2" filter="url(#glow)" />
+              ))}
+              {[
+                {x1:140,y1:12,x2:90,y2:40},{x1:140,y1:12,x2:190,y2:40},
+                {x1:90,y1:40,x2:60,y2:68},{x1:90,y1:40,x2:120,y2:68},
+                {x1:190,y1:40,x2:160,y2:68},{x1:190,y1:40,x2:220,y2:68},
+              ].map((b,i)=> <line key={"l"+i} {...b} stroke="rgba(0,255,178,0.35)" strokeWidth="1" />)}
+              <defs>
+                <filter id="glow"><feGaussianBlur stdDeviation="1.5"/></filter>
+              </defs>
+            </svg>
+            <div className="num-row"><span className="n">31</span><span>units · exponential</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 3) SWISS GRID
+function SwissArtboard() {
+  return (
+    <div className="style-stage swiss">
+      <div className="panel">
+        <div className="meta"><span>02 / Statement</span><span className="num">II</span></div>
+        <div className="stmt-headline">
+          AI is not <span className="strike">hype</span>.<br/>
+          It's a <em>shift</em> in how work gets done.
+        </div>
+        <div className="stmt-foot">
+          <div>Aspire · 2026</div>
+          <div>Leadership Workshop</div>
+        </div>
+      </div>
+      <div className="panel">
+        <div className="meta"><span>12 / Diagram</span><span className="num">XII</span></div>
+        <div className="harness-wrap">
+          <div className="harness-title">A <span className="red">Harness</span></div>
+          <HarnessRingSwiss />
+        </div>
+      </div>
+      <div className="panel">
+        <div className="meta"><span>10 / Comparison</span><span className="num">X</span></div>
+        <div className="cmp-wrap">
+          <div className="cmp-row">
+            <div className="h">Builder</div>
+            <div className="bar" style={{ width: '38%' }}></div>
+            <div className="stat">12</div>
+          </div>
+          <div className="cmp-row harness">
+            <div className="h">Harness</div>
+            <div className="bar" style={{ width: '100%' }}></div>
+            <div className="stat">31</div>
+          </div>
+          <div className="cmp-cap">Units of work · same week</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 4) TECH-TERMINAL
+function TerminalArtboard() {
+  return (
+    <div className="style-stage terminal">
+      <div className="panel">
+        <div className="meta">
+          <span><span className="prompt">aspire</span>@workshop:~/02_not_hype$</span>
+          <span className="blink"></span>
+        </div>
+        <div className="stmt-headline">
+          <div><span className="dim">&gt;</span> AI is not <span className="strike">hype</span>.</div>
+          <div><span className="dim">&gt;</span> It's a <em>shift in how work gets done.</em></div>
+        </div>
+        <div className="stmt-block">
+          <div className="dim">/* footnote */</div>
+          Across fintech, payments, and consumer<br/>
+          tooling — the work itself is being rewritten.
+        </div>
+        <div className="stmt-foot"><span className="prompt">$</span> next: §03 already_shipping</div>
+      </div>
+
+      <div className="panel">
+        <div className="meta">
+          <span><span className="prompt">aspire</span>@workshop:~/12_harness$</span>
+          <span className="blink"></span>
+        </div>
+        <div className="harness-wrap">
+          <pre className="harness-ascii">
+{`> def harness():
+
+         ┌─ prompts
+         │
+   tools ┤
+         │           ┌────────┐
+         ├──────────►│  `}<span className="core">model</span>{`  │◄─── triggers
+         │           └────────┘
+   memory┤
+         │
+         └─ guardrails
+
+> # the machine around the engine
+> _`}
+          </pre>
+        </div>
+      </div>
+
+      <div className="panel">
+        <div className="meta">
+          <span><span className="prompt">aspire</span>@workshop:~/10_compound$</span>
+          <span className="blink"></span>
+        </div>
+        <div className="cmp-wrap">
+          <div className="cmp-block builder">
+            <div className="h">// builder.work() — linear</div>
+            <pre className="bars">
+{`day 1  ▮
+day 2  ▮▮
+day 3  ▮▮▮
+day 4  ▮▮▮▮
+day 5  ▮▮▮▮▮
+       ........`}
+            </pre>
+            <div className="total">total = 12</div>
+          </div>
+          <div className="cmp-block harness">
+            <div className="h">// harness.work() — exponential</div>
+            <pre className="bars">
+{`day 1  ▮
+day 2  ▮▮
+day 3  ▮▮▮▮
+day 4  ▮▮▮▮▮▮▮▮
+day 5  ▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮`}
+            </pre>
+            <div className="total">total = 31  // and growing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <DesignCanvas title="Visual Style Explorations" subtitle="Aspire · Leadership AI Workshop · pick one to roll out" initialZoom={0.55}>
+      <DCSection id="styles" title="Four directions" subtitle="Each tile shows three representative slides: a statement, the harness diagram, and the compounding visual.">
+        <DCArtboard id="brutalist" label="01 — Brutalist mono" width={1280} height={720}>
+          <BrutalistArtboard />
+        </DCArtboard>
+        <DCArtboard id="cinematic" label="02 — Cinematic dark" width={1280} height={720}>
+          <CinematicArtboard />
+        </DCArtboard>
+        <DCArtboard id="swiss" label="03 — Swiss grid (red)" width={1280} height={720}>
+          <SwissArtboard />
+        </DCArtboard>
+        <DCArtboard id="terminal" label="04 — Tech-terminal" width={1280} height={720}>
+          <TerminalArtboard />
+        </DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

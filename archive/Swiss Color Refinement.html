@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Swiss · Color & Visualization Pass</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #1a1a1a; }
+
+  /* Each color variant is a 1280x720 stage with three panels: statement, harness, compounding. */
+  .stage {
+    width: 1280px; height: 720px; position: relative; overflow: hidden;
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    font-family: 'Inter', sans-serif;
+  }
+  .stage > .panel {
+    position: relative; padding: 38px 32px;
+    border-right: 1px solid rgba(0,0,0,0.06);
+  }
+  .stage > .panel:last-child { border-right: none; }
+
+  /* Top accent bar */
+  .stage > .panel::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0;
+    height: 4px; background: var(--accent);
+  }
+
+  .meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink); font-weight: 500;
+    display: flex; justify-content: space-between;
+    padding-top: 16px;
+  }
+  .meta .num { color: var(--accent); }
+
+  .stmt {
+    font-weight: 700; font-size: 50px; line-height: 0.95;
+    letter-spacing: -0.04em; margin-top: 70px;
+    color: var(--ink);
+  }
+  .stmt .strike {
+    text-decoration: line-through;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 3px;
+    color: var(--ink-mute);
+  }
+  .stmt em {
+    font-style: normal; color: var(--accent); font-weight: 700;
+  }
+  .stmt-foot {
+    margin-top: 26px; padding-top: 12px; border-top: 1px solid var(--ink);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    font-weight: 500; color: var(--ink-soft);
+  }
+
+  /* Harness */
+  .harness-wrap {
+    height: 100%; padding-top: 50px;
+    display: flex; flex-direction: column; align-items: center; gap: 26px;
+  }
+  .harness-title {
+    font-weight: 700; font-size: 30px; letter-spacing: -0.03em;
+    text-transform: uppercase; color: var(--ink);
+  }
+  .harness-title .a { color: var(--accent); }
+  .harness-fig {
+    position: relative; width: 240px; height: 240px;
+  }
+  .harness-fig svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .harness-fig .ring { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+  .harness-fig .arc {
+    fill: none; stroke: var(--accent); stroke-width: 3;
+    stroke-linecap: round; stroke-dasharray: 90 720;
+    animation: arc 5s linear infinite;
+  }
+  @keyframes arc { to { stroke-dashoffset: -800; } }
+  .harness-fig .core {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase;
+    background: var(--accent); color: var(--accent-fg, #fff); padding: 7px 12px;
+  }
+  .harness-fig .nd {
+    position: absolute; transform: translate(-50%, -50%);
+    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    font-weight: 600; background: var(--paper); padding: 3px 6px;
+    border: 1px solid var(--ink); color: var(--ink);
+  }
+
+  /* Compounding visualizations */
+  .cmp { height: 100%; padding-top: 16px; display: flex; flex-direction: column; gap: 14px; }
+  .cmp-title {
+    font-weight: 700; font-size: 14px; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  /* Variant A: line vs curve */
+  .curve-chart {
+    flex: 1; position: relative; padding-top: 6px;
+  }
+  .curve-chart svg { width: 100%; height: 100%; overflow: visible; }
+  .curve-chart .axis { stroke: var(--ink); stroke-width: 1; }
+  .curve-chart .grid { stroke: var(--ink); stroke-width: 0.5; opacity: 0.1; }
+  .curve-chart .line-builder {
+    fill: none; stroke: var(--ink); stroke-width: 2;
+    stroke-dasharray: 280; stroke-dashoffset: 280;
+    animation: drawLine 1.6s ease-out 0.3s forwards;
+  }
+  .curve-chart .curve-harness {
+    fill: none; stroke: var(--accent); stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 320; stroke-dashoffset: 320;
+    animation: drawLine 2.4s cubic-bezier(0.6, 0, 0.7, 1) 0.6s forwards;
+    filter: drop-shadow(0 1px 0 rgba(0,0,0,0));
+  }
+  @keyframes drawLine { to { stroke-dashoffset: 0; } }
+  .curve-chart .label-builder {
+    font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.16em;
+    text-transform: uppercase; fill: var(--ink-soft);
+  }
+  .curve-chart .label-harness {
+    font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px;
+    letter-spacing: -0.01em; fill: var(--accent);
+  }
+  .curve-chart .endpoint-builder {
+    fill: var(--ink);
+    opacity: 0; animation: appear 0.4s ease 1.7s forwards;
+  }
+  .curve-chart .endpoint-harness {
+    fill: var(--accent);
+    opacity: 0; animation: appear 0.4s ease 2.8s forwards;
+  }
+  @keyframes appear { to { opacity: 1; } }
+
+  /* Variant B: swarm */
+  .swarm {
+    flex: 1; padding-top: 12px;
+    display: grid; grid-template-rows: auto 1fr auto 1fr;
+    gap: 6px;
+  }
+  .swarm-row { display: flex; flex-direction: column; gap: 6px; }
+  .swarm-row .h {
+    font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft);
+    display: flex; justify-content: space-between;
+  }
+  .swarm-row.harness .h { color: var(--accent); }
+  .swarm-row .h .count {
+    font-family: 'Inter', sans-serif; font-weight: 700;
+    font-size: 18px; letter-spacing: -0.02em; color: var(--ink);
+  }
+  .swarm-row.harness .h .count { color: var(--accent); }
+  .swarm-row .grid {
+    flex: 1;
+    display: grid; gap: 4px;
+    grid-template-columns: repeat(20, 1fr);
+    align-content: start;
+  }
+  .swarm-row .a {
+    width: 100%; aspect-ratio: 1; background: var(--ink);
+    opacity: 0; transform: scale(0);
+    animation: pop 0.3s ease forwards;
+  }
+  .swarm-row.harness .a { background: var(--accent); }
+  @keyframes pop { to { opacity: 1; transform: scale(1); } }
+
+  /* Style label above artboards */
+  .style-label {
+    position: absolute; top: -36px; left: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.65); font-weight: 500;
+  }
+  .style-label .name {
+    color: #fff;
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px;
+    letter-spacing: -0.005em; text-transform: none; margin-right: 14px;
+  }
+
+  /* ════ Color variants ════ */
+
+  /* A — Aspire green on cream */
+  .v-a {
+    --paper: #F4F1EA;
+    --ink: #0E0F0C;
+    --ink-soft: rgba(14,15,12,0.62);
+    --ink-mute: rgba(14,15,12,0.32);
+    --accent: #00A86B;
+    --accent-fg: #F4F1EA;
+    background: var(--paper);
+  }
+
+  /* B — FT navy + cream + electric yellow */
+  .v-b {
+    --paper: #FFF1E5;
+    --ink: #0A1A2A;
+    --ink-soft: rgba(10,26,42,0.62);
+    --ink-mute: rgba(10,26,42,0.30);
+    --accent: #0A1A2A;
+    --accent-fg: #FFD400;
+    background: var(--paper);
+  }
+  .v-b .stmt em { color: var(--ink); background: #FFD400; padding: 1px 6px; }
+  .v-b .stmt .strike { text-decoration-color: #FFD400; }
+  .v-b .harness-fig .arc { stroke: #FFD400; }
+  .v-b .swarm-row.harness .a { background: #FFD400; box-shadow: 0 0 0 1px #0A1A2A; }
+  .v-b .swarm-row.harness .h { color: var(--ink); }
+  .v-b .swarm-row.harness .h .count { color: var(--ink); }
+  .v-b .curve-chart .curve-harness { stroke: #FFD400; }
+  .v-b .curve-chart .label-harness { fill: var(--ink); }
+  .v-b .curve-chart .endpoint-harness { fill: #FFD400; stroke: var(--ink); stroke-width: 1; }
+  .v-b .meta .num { color: var(--ink); }
+
+  /* C — Black + cream + Aspire green */
+  .v-c {
+    --paper: #ECE7DB;
+    --ink: #000;
+    --ink-soft: rgba(0,0,0,0.62);
+    --ink-mute: rgba(0,0,0,0.32);
+    --accent: #00A86B;
+    --accent-fg: #ECE7DB;
+    background: var(--paper);
+  }
+
+  /* D — pure black/white + deep blue */
+  .v-d {
+    --paper: #FFFFFF;
+    --ink: #0A0A0A;
+    --ink-soft: rgba(10,10,10,0.62);
+    --ink-mute: rgba(10,10,10,0.30);
+    --accent: #0033CC;
+    --accent-fg: #FFFFFF;
+    background: var(--paper);
+  }
+
+  /* E — charcoal + bone + amber */
+  .v-e {
+    --paper: #F2EBDA;
+    --ink: #1C1A14;
+    --ink-soft: rgba(28,26,20,0.62);
+    --ink-mute: rgba(28,26,20,0.32);
+    --accent: #C8861D;
+    --accent-fg: #F2EBDA;
+    background: var(--paper);
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+
+<script type="text/babel">
+const { DesignCanvas, DCSection, DCArtboard } = window;
+
+function Harness() {
+  const cx = 120, cy = 120, r = 92;
+  const labels = ['PROMPTS','TOOLS','MEMORY','TRIGGERS','GUARDRAILS'];
+  return (
+    <div className="harness-fig">
+      <svg viewBox="0 0 240 240">
+        <circle className="ring" cx={cx} cy={cy} r={r} />
+        <circle className="arc" cx={cx} cy={cy} r={r} transform="rotate(-90 120 120)" />
+      </svg>
+      <span className="core">Model</span>
+      {labels.map((l, i) => {
+        const a = (-90 + i * 72) * Math.PI / 180;
+        const x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r;
+        return <span className="nd" key={l} style={{ left: x, top: y }}>{l}</span>;
+      })}
+    </div>
+  );
+}
+
+// Compounding A: Line vs exponential curve
+function CompoundCurve() {
+  // viewBox 280x180. x: 0..260; y: 160..20 (inverted)
+  // builder linear from (10, 150) to (250, 110)
+  // harness curve from (10, 150) sharply up to (250, 25)
+  const harnessPath = "M 10 150 C 60 152, 110 145, 150 110 S 220 50, 250 25";
+  return (
+    <div className="cmp">
+      <div className="cmp-title">Output over the same week</div>
+      <div className="curve-chart">
+        <svg viewBox="0 0 280 180" preserveAspectRatio="none">
+          {/* Axes */}
+          <line className="axis" x1="10" y1="160" x2="270" y2="160" />
+          <line className="axis" x1="10" y1="10" x2="10" y2="160" />
+          {/* Builder line */}
+          <line className="line-builder" x1="10" y1="150" x2="250" y2="110" />
+          {/* Harness curve */}
+          <path className="curve-harness" d={harnessPath} />
+          {/* Endpoints */}
+          <circle className="endpoint-builder" cx="250" cy="110" r="3" />
+          <circle className="endpoint-harness" cx="250" cy="25" r="5" />
+          {/* Labels */}
+          <text className="label-builder" x="255" y="106">BUILDER · 12</text>
+          <text className="label-harness" x="160" y="40">HARNESS · 31+</text>
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+// Compounding B: Swarm grid
+function CompoundSwarm() {
+  const builderCount = 1;
+  const harnessCount = 60;
+  return (
+    <div className="cmp">
+      <div className="cmp-title">Workforce, same week</div>
+      <div className="swarm">
+        <div className="swarm-row">
+          <div className="h"><span>Builder</span><span className="count">{builderCount}</span></div>
+          <div className="grid">
+            <div className="a" style={{ animationDelay: '0.3s' }} />
+          </div>
+        </div>
+        <div className="swarm-row harness">
+          <div className="h"><span>Harness</span><span className="count">{harnessCount}+</span></div>
+          <div className="grid">
+            {Array.from({length: harnessCount}).map((_, i) => (
+              <div className="a" key={i} style={{ animationDelay: `${0.6 + i * 0.025}s` }} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ArtboardOne({ variant, compound }) {
+  const Compound = compound === 'curve' ? CompoundCurve : CompoundSwarm;
+  return (
+    <div className={`stage ${variant}`}>
+      <div className="panel">
+        <div className="meta"><span>02 / Statement</span><span className="num">II</span></div>
+        <div className="stmt">
+          AI is not <span className="strike">hype</span>.<br/>
+          It's a <em>shift</em> in how work gets done.
+        </div>
+        <div className="stmt-foot">
+          <div>Aspire · 2026</div>
+          <div>Leadership Workshop</div>
+        </div>
+      </div>
+      <div className="panel">
+        <div className="meta"><span>12 / Diagram</span><span className="num">XII</span></div>
+        <div className="harness-wrap">
+          <div className="harness-title">A <span className="a">Harness</span></div>
+          <Harness />
+        </div>
+      </div>
+      <div className="panel">
+        <div className="meta"><span>10 / Compound</span><span className="num">X</span></div>
+        <Compound />
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <DesignCanvas title="Swiss · Color & Visualization Pass" subtitle="Same Inter/bold typography. Five color variants × two compounding visuals. Click a tile to focus." initialZoom={0.5}>
+      <DCSection id="curves" title="Compounding · Line vs exponential curve" subtitle="Drawn live: a flat line for builder, a curve that bursts past the frame for harness.">
+        <DCArtboard id="curve-a" label="A · Aspire green / cream" width={1280} height={720}>
+          <ArtboardOne variant="v-a" compound="curve" />
+        </DCArtboard>
+        <DCArtboard id="curve-b" label="B · Navy / cream / yellow" width={1280} height={720}>
+          <ArtboardOne variant="v-b" compound="curve" />
+        </DCArtboard>
+        <DCArtboard id="curve-c" label="C · Black / cream / green" width={1280} height={720}>
+          <ArtboardOne variant="v-c" compound="curve" />
+        </DCArtboard>
+        <DCArtboard id="curve-d" label="D · White / deep blue" width={1280} height={720}>
+          <ArtboardOne variant="v-d" compound="curve" />
+        </DCArtboard>
+        <DCArtboard id="curve-e" label="E · Charcoal / bone / amber" width={1280} height={720}>
+          <ArtboardOne variant="v-e" compound="curve" />
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection id="swarms" title="Compounding · Swarm" subtitle="A single builder square vs a flooding grid of agent squares popping in. Same five palettes.">
+        <DCArtboard id="swarm-a" label="A · Aspire green / cream" width={1280} height={720}>
+          <ArtboardOne variant="v-a" compound="swarm" />
+        </DCArtboard>
+        <DCArtboard id="swarm-b" label="B · Navy / cream / yellow" width={1280} height={720}>
+          <ArtboardOne variant="v-b" compound="swarm" />
+        </DCArtboard>
+        <DCArtboard id="swarm-c" label="C · Black / cream / green" width={1280} height={720}>
+          <ArtboardOne variant="v-c" compound="swarm" />
+        </DCArtboard>
+        <DCArtboard id="swarm-d" label="D · White / deep blue" width={1280} height={720}>
+          <ArtboardOne variant="v-d" compound="swarm" />
+        </DCArtboard>
+        <DCArtboard id="swarm-e" label="E · Charcoal / bone / amber" width={1280} height={720}>
+          <ArtboardOne variant="v-e" compound="swarm" />
+        </DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
