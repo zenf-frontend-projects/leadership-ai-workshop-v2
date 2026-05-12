@@ -189,7 +189,7 @@ html, body {
 .cold-open {
   display: flex; flex-direction: column;
   align-items: flex-start; justify-content: flex-end;
-  padding: 0 120px 160px;
+  padding: 0 120px 96px;
   position: relative;
   width: 100%;
   height: 100%;
@@ -691,13 +691,13 @@ html, body {
 }
 .harness-title {
   position: absolute;
-  top: 200px;
+  top: 130px;
   left: 50%;
   font-family: var(--sans);
   font-weight: 700;
-  font-size: 88px;
+  font-size: 60px;
   line-height: 1;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.04em;
   color: var(--ink);
   white-space: nowrap;
   text-transform: uppercase;
@@ -711,7 +711,8 @@ html, body {
   position: absolute;
   top: 50%; left: 50%;
   width: 700px; height: 700px;
-  transform: translate(-50%, -42%);
+  transform: translate(-50%, -50%) scale(0.82);
+  transform-origin: center center;
   z-index: 1;
 }
 
@@ -811,7 +812,7 @@ html, body {
 
 .harness-caption {
   position: absolute;
-  bottom: 130px;
+  bottom: 180px;
   left: 50%;
   font-family: var(--sans);
   font-weight: 500;
@@ -826,6 +827,46 @@ html, body {
 .harness-caption em { font-style: normal; color: var(--accent); font-weight: 700; }
 .harness-caption.reveal         { transform: translateX(-50%) translateY(var(--rise)); }
 .harness-caption.reveal.is-in   { transform: translateX(-50%) translateY(0); }
+
+.harness-refs {
+  position: absolute;
+  bottom: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink-mute);
+  white-space: nowrap;
+}
+.harness-refs .refs-label {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ink-faint);
+}
+.harness-refs .ref-link {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0,0,0,0.18);
+  padding-bottom: 2px;
+  transition: color 200ms var(--ease), border-color 200ms var(--ease);
+}
+.harness-refs .ref-link:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+.harness-refs .ref-link .arr {
+  display: inline-block;
+  margin-left: 6px;
+  transition: transform 200ms var(--ease);
+}
+.harness-refs .ref-link:hover .arr { transform: translateX(3px); }
+.harness-refs.reveal       { transform: translateX(-50%) translateY(var(--rise)); }
+.harness-refs.reveal.is-in { transform: translateX(-50%) translateY(0); }
 
 /* ──────────────────────────────────────────────
    Manifesto

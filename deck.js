@@ -34,7 +34,7 @@ function maybeRunStrike(slide, stepEl) {
 
 function updateChrome(slide) {
   const num = parseInt(slide.dataset.slide, 10);
-  foliationNum.textContent = pad(num);
+  if (foliationNum) foliationNum.textContent = pad(num);
 }
 
 function activateSlide(i, opts = {}) {
@@ -51,8 +51,8 @@ function activateSlide(i, opts = {}) {
   });
 
   // Reset compounding state if leaving or entering
-  if (prev && parseInt(prev.dataset.slide, 10) === 10) resetCompounding();
-  if (parseInt(next.dataset.slide, 10) === 10) resetCompounding();
+  if (prev && prev.classList.contains('compounding')) resetCompounding();
+  if (next.classList.contains('compounding')) resetCompounding();
 
   const totalSteps = parseInt(next.dataset.steps || '1', 10);
   if (revealAll) {
@@ -141,8 +141,7 @@ document.addEventListener('contextmenu', (e) => {
 // ==============================================================
 
 function triggerStepAnimation(slide, step) {
-  const num = parseInt(slide.dataset.slide, 10);
-  if (num === 10) {
+  if (slide.classList.contains('compounding')) {
     if (step === 1) animateCompounding();
     if (step === 2) {} // legend already revealed
   }
