@@ -2,24 +2,456 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Aspire · Leadership AI Workshop · Workshop 3</title>
+<title>Aspire · Leadership AI Workshop · Workshop 3 — Automations &amp; n8n</title>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=23">
+<link rel="stylesheet" href="styles.css?v=35">
+<style>
+  /* shared (defined inline in ws2 too) */
+  .prompt-link {
+    color: var(--accent-deep); font-weight: 600;
+    text-decoration: underline; text-underline-offset: 5px;
+    text-decoration-thickness: 2px;
+  }
+
+  /* ── Slide 2 — schedule examples (connector strip per card) ── */
+  .sched-head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px;
+  }
+  .sched-logos { display: flex; align-items: center; gap: 14px; flex: 0 0 auto; }
+  .sched-logos img { height: 24px; width: auto; object-fit: contain; display: block; }
+  .sched-chip {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink-mute);
+    border: 1px solid var(--rule); padding: 4px 9px; border-radius: 4px;
+  }
+  .sched-desc { margin-top: 26px; }
+
+  /* ── Slide 3 — two-step build-along (vertical timeline) ── */
+  .build-steps {
+    display: flex; flex-direction: column; gap: 0;
+    width: 100%; max-width: 1300px; margin: 44px auto 0; text-align: left;
+  }
+  .bstep { display: flex; gap: 30px; align-items: stretch; }
+  .bs-rail { display: flex; flex-direction: column; align-items: center; flex: 0 0 auto; }
+  .bs-badge {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--accent); color: var(--accent-fg);
+    font-family: var(--sans); font-weight: 800; font-size: 23px; letter-spacing: -0.02em;
+    display: flex; align-items: center; justify-content: center; flex: 0 0 auto;
+  }
+  .bs-line { width: 2px; flex: 1 1 auto; min-height: 28px; background: var(--rule); margin: 6px 0; }
+  .bstep:last-child .bs-line { display: none; }
+  .bs-body { flex: 1 1 auto; padding-bottom: 34px; }
+  .bstep:last-child .bs-body { padding-bottom: 0; }
+  .bs-head {
+    font-family: var(--sans); font-weight: 700; font-size: 29px;
+    letter-spacing: -0.025em; color: var(--ink); line-height: 1.12;
+  }
+  .bs-head em { font-style: normal; color: var(--accent); }
+  .bs-desc { font-family: var(--sans); font-size: 21px; line-height: 1.5; color: var(--ink-soft); margin-top: 9px; }
+  .bs-desc strong { color: var(--ink); font-weight: 700; }
+  .bs-quote {
+    display: inline-block; font-family: var(--mono); font-size: 16px; line-height: 1.5;
+    color: var(--accent-deep); background: var(--accent-soft);
+    border-left: 3px solid var(--accent); padding: 11px 17px; border-radius: 6px; margin-top: 15px;
+  }
+
+  /* ── Slide 4 — standard vs agentic ── */
+  .auto-slide {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 0 120px; gap: 46px;
+  }
+  .auto-head { text-align: center; max-width: 1400px; }
+  .auto-title {
+    font-family: var(--sans); font-weight: 700; font-size: 54px;
+    line-height: 1.08; letter-spacing: -0.04em; color: var(--ink);
+    text-wrap: balance;
+  }
+  .auto-title em { font-style: normal; color: var(--accent); }
+  .auto-cols {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--rule); border: 1px solid var(--rule);
+    width: 100%; max-width: 1500px;
+  }
+  .auto-card {
+    background: var(--paper); padding: 44px 48px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .auto-tag {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink-mute); font-weight: 600;
+  }
+  .auto-card.is-agentic .auto-tag { color: var(--accent-deep); }
+  .auto-name {
+    font-family: var(--sans); font-weight: 800; font-size: 38px;
+    letter-spacing: -0.03em; color: var(--ink); line-height: 1.0;
+  }
+  .auto-card.is-agentic .auto-name { color: var(--accent); }
+  .auto-flow { display: flex; align-items: center; gap: 10px; height: 30px; margin: 4px 0 2px; }
+  .auto-flow .nd { width: 13px; height: 13px; border-radius: 50%; background: var(--ink-mute); flex: 0 0 auto; }
+  .auto-flow .ar { width: 24px; height: 2px; background: var(--rule); flex: 0 0 auto; }
+  .auto-flow .ag {
+    width: 26px; height: 26px; border-radius: 50%; background: var(--accent);
+    box-shadow: 0 0 0 6px var(--accent-soft); flex: 0 0 auto;
+  }
+  .auto-desc { font-family: var(--sans); font-size: 22px; line-height: 1.45; color: var(--ink-soft); }
+  .auto-desc strong { color: var(--ink); font-weight: 700; }
+  .auto-foot {
+    font-family: var(--sans); font-size: 27px; line-height: 1.4; color: var(--ink);
+    text-align: center; max-width: 1240px; font-weight: 500;
+  }
+  .auto-foot em { font-style: normal; color: var(--accent); font-weight: 700; }
+
+  /* ── Slide 6 — spectrum (animated) ── */
+  .spec-slide {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 0 120px; gap: 68px;
+  }
+  .spec-head { text-align: center; max-width: 1400px; }
+  .spec-title {
+    font-family: var(--sans); font-weight: 700; font-size: 58px;
+    line-height: 1.02; letter-spacing: -0.045em; color: var(--ink);
+  }
+  .spec-title em { font-style: normal; color: var(--accent); }
+
+  /* axis / track */
+  .spec-axis { width: 100%; max-width: 1500px; display: flex; align-items: center; gap: 32px; }
+  .spec-end { display: flex; flex-direction: column; gap: 6px; flex: 0 0 auto; }
+  .spec-end.left { align-items: flex-start; }
+  .spec-end.right { align-items: flex-end; text-align: right; }
+  .spec-name {
+    font-family: var(--sans); font-weight: 800; font-size: 40px;
+    letter-spacing: -0.03em; color: var(--ink); line-height: 1.0;
+  }
+  .spec-end.right .spec-name { color: var(--accent); }
+  .spec-track {
+    position: relative; flex: 1 1 auto; height: 4px;
+    background: var(--rule); border-radius: 2px;
+  }
+  .spec-fill {
+    position: absolute; inset: 0; border-radius: 2px;
+    transform: scaleX(0); transform-origin: left center;
+    background: linear-gradient(90deg, var(--ink-mute), var(--accent));
+    transition: transform 1100ms var(--ease-out);
+  }
+  .spec-knob {
+    position: absolute; top: 50%; left: 0;
+    width: 16px; height: 16px; border-radius: 50%; background: var(--accent);
+    box-shadow: 0 0 0 6px var(--accent-soft);
+    transform: translate(-50%, -50%) scale(0);
+    transition: left 1100ms var(--ease-out), transform 360ms var(--ease-out);
+  }
+  .spec-axis.reveal.is-in .spec-fill { transform: scaleX(1); }
+  .spec-axis.reveal.is-in .spec-knob { left: 100%; transform: translate(-50%, -50%) scale(1); }
+
+  /* columns of conditions */
+  .spec-cols {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+    width: 100%; max-width: 1560px;
+  }
+  .spec-col { display: flex; flex-direction: column; gap: 26px; }
+  .spec-col h4 {
+    font-family: var(--mono); font-size: 16px; letter-spacing: 0.16em;
+    text-transform: uppercase; font-weight: 600;
+    padding-bottom: 16px; border-bottom: 1px solid var(--rule); margin: 0 0 10px;
+  }
+  .spec-col.left h4 { color: var(--ink-mute); }
+  .spec-col.right h4 { color: var(--accent-deep); }
+  .spec-chip {
+    font-family: var(--sans); font-size: 27px; line-height: 1.38;
+    color: var(--ink); display: flex; gap: 18px; align-items: flex-start;
+  }
+  .spec-chip::before {
+    content: ""; width: 10px; height: 10px; border-radius: 50%;
+    flex: 0 0 auto; margin-top: 13px;
+  }
+  .spec-col.left .spec-chip::before { background: var(--ink-mute); }
+  .spec-col.right .spec-chip::before { background: var(--accent); }
+  /* cascade the chips when the columns reveal */
+  .spec-cols.reveal h4, .spec-cols.reveal .spec-chip {
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 520ms var(--ease), transform 520ms var(--ease);
+  }
+  .spec-cols.reveal.is-in h4, .spec-cols.reveal.is-in .spec-chip { opacity: 1; transform: none; }
+  .spec-cols.reveal.is-in .spec-col > :nth-child(1) { transition-delay: 0ms; }
+  .spec-cols.reveal.is-in .spec-col > :nth-child(2) { transition-delay: 70ms; }
+  .spec-cols.reveal.is-in .spec-col > :nth-child(3) { transition-delay: 140ms; }
+  .spec-cols.reveal.is-in .spec-col > :nth-child(4) { transition-delay: 210ms; }
+  .spec-cols.reveal.is-in .spec-col > :nth-child(5) { transition-delay: 280ms; }
+  .spec-cols.reveal.is-in .spec-col > :nth-child(6) { transition-delay: 350ms; }
+
+  /* ── Slide 8 — agents built at Aspire ── */
+  .shipping-head .title.cased { text-transform: none; }
+  .agents {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+    width: 100%; max-width: 1580px;
+  }
+  .agent-card {
+    position: relative; overflow: hidden;
+    background: var(--paper); border: 1px solid var(--rule); border-radius: 12px;
+    padding: 42px 40px 34px; display: flex; flex-direction: column; gap: 24px;
+  }
+  .agent-card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: var(--accent);
+  }
+  .agent-top { display: flex; flex-direction: column; gap: 9px; }
+  .agent-name { font-family: var(--sans); font-weight: 800; font-size: 32px; letter-spacing: -0.03em; color: var(--ink); line-height: 1.0; }
+  .agent-name { line-height: 1.12; }
+  .agent-name .agent-acro {
+    font-size: 14px; font-weight: 500; font-style: italic;
+    letter-spacing: -0.005em; color: var(--ink-mute); margin-left: 10px;
+  }
+  .agent-by { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-deep); font-weight: 600; }
+  .agent-points { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 15px; flex: 1 1 auto; }
+  .agent-points li {
+    position: relative; padding-left: 28px;
+    font-family: var(--sans); font-size: 19px; line-height: 1.4; color: var(--ink-soft);
+  }
+  .agent-points li::before {
+    content: ""; position: absolute; left: 0; top: 9px;
+    width: 9px; height: 9px; border-radius: 50%; background: var(--accent);
+  }
+  .agent-points strong { color: var(--ink); font-weight: 700; }
+  .agent-meta {
+    display: flex; flex-wrap: wrap; gap: 9px;
+    padding-top: 20px; border-top: 1px solid var(--rule-faint);
+  }
+  .agent-tag {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--accent-deep);
+    background: var(--accent-soft); padding: 6px 11px; border-radius: 5px;
+  }
+</style>
 <script type="application/json" id="speaker-notes">[]</script>
 </head>
 <body>
 <div class="stage" id="stage">
   <div class="canvas" id="canvas">
 
+    <!-- Top accent bar — runs across every slide -->
     <div class="accent-bar"></div>
 
-    <section class="slide statement" data-slide="1" data-screen-label="01 Workshop 3" data-section="Workshop 3" data-steps="1">
+    <!-- ═════════ SLIDE 1 — Title ═════════ -->
+    <section class="slide statement center" data-slide="1" data-screen-label="01 Workshop 3" data-section="An opening" data-steps="1">
       <div class="slide-eyebrow"><span class="num">01</span></div>
       <div class="stack">
-        <p class="line reveal" data-step="1">Workshop 3 — placeholder</p>
+        <p class="line reveal slow" data-step="1">Workshop 3<em class="subtitle">Automations &amp; n8n.</em></p>
+      </div>
+    </section>
+
+    <!-- ═════════ SLIDE 2 — Schedule examples ═════════ -->
+    <section class="slide shipping is-prompts" data-slide="2" data-screen-label="02 Schedule examples" data-section="Schedules · in Claude Cowork" data-steps="4">
+      <div class="slide-eyebrow"><span class="num">02</span><span class="sep"></span><span class="num">Schedules · Claude Cowork</span></div>
+      <div class="shipping-head">
+        <h2 class="title">Schedules that run <em>without you</em>.</h2>
+      </div>
+      <div class="shipping-grid">
+        <div class="ship-card reveal" data-step="1">
+          <div class="sched-head">
+            <div class="wordmark">Morning Brief</div>
+            <div class="sched-logos">
+              <img src="assets/Google__G__logo.svg.webp" alt="Google">
+              <img src="assets/slack.png" alt="Slack">
+            </div>
+          </div>
+          <p class="blurb sched-desc">Every weekday at 7am, gather overnight Slack @mentions, today's calendar and unread priority email — then post a structured brief to my Slack DM before I'm online.</p>
+        </div>
+        <div class="ship-card reveal" data-step="2">
+          <div class="sched-head">
+            <div class="wordmark">Metrics Pulse</div>
+            <div class="sched-logos">
+              <img src="assets/databricks.png" alt="Databricks">
+              <img src="assets/slack.png" alt="Slack">
+            </div>
+          </div>
+          <p class="blurb sched-desc">Each morning, query yesterday's TPV, AA and signups from Databricks, flag anything off-trend, and drop the digest into #leadership-metrics.</p>
+        </div>
+        <div class="ship-card reveal" data-step="3">
+          <div class="sched-head">
+            <div class="wordmark">Competitor Radar</div>
+            <div class="sched-logos">
+              <span class="sched-chip">Web</span>
+              <img src="assets/atlassian.svg" alt="Confluence">
+            </div>
+          </div>
+          <p class="blurb sched-desc">Daily, scan the web for news on our key competitors and append a dated summary to our Confluence "Competitor Radar" page.</p>
+        </div>
+        <div class="ship-card reveal" data-step="4">
+          <div class="sched-head">
+            <div class="wordmark">Stale Tickets</div>
+            <div class="sched-logos">
+              <img src="assets/atlassian.svg" alt="Jira">
+            </div>
+          </div>
+          <p class="blurb sched-desc">Every morning, find Jira tickets assigned to me with no movement in 3+ days and DM me the list, sorted by how long each has been sitting.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ SLIDE 3 — Build-along · Morning Brief schedule ═════════ -->
+    <section class="slide statement center" data-slide="3" data-screen-label="03 Build · Morning Brief" data-section="Build your own" data-steps="3">
+      <div class="slide-eyebrow"><span class="num">03</span><span class="sep"></span><span class="num">Live build-along</span></div>
+      <div class="stack">
+        <p class="line reveal" data-step="1">Our first Schedule<em class="subtitle">Morning Brief.</em></p>
+        <div class="build-steps">
+          <div class="bstep reveal" data-step="2">
+            <div class="bs-rail"><div class="bs-badge">01</div><div class="bs-line"></div></div>
+            <div class="bs-body">
+              <div class="bs-head">In <span class="burnt">Claude</span>, draft the prompt</div>
+              <div class="bs-desc">Ask Claude to write a prompt for a morning-brief schedule — one that scans your Gmail, Calendar and Slack and returns <strong>today at a glance</strong>. Full prompt <a class="prompt-link" href="https://docs.google.com/document/d/1ehZiYcQk7pmAGW8BudO5Lks-lQcmmKWoEHN2D2MNJbA/edit?tab=t.lqz2zy3t6gw4" target="_blank" rel="noopener">here</a>.</div>
+              <div class="bs-quote">"Write me a prompt for a daily morning brief that scans my Gmail, Calendar &amp; Slack that I can use to create a Claude schedule. The schedule should trigger every morning and post a summary to Slack. Make sure the output is structured — feel free to suggest some structures."</div>
+            </div>
+          </div>
+          <div class="bstep reveal slow" data-step="3">
+            <div class="bs-rail"><div class="bs-badge">02</div><div class="bs-line"></div></div>
+            <div class="bs-body">
+              <div class="bs-head"><span class="burnt">Claude Cowork</span> → Schedules → New Task → Set up manually</div>
+              <div class="bs-desc">Create a new schedule manually, set it to run <strong>every weekday at 7am</strong>, and paste the prompt in. That's it — it now runs without you.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ SLIDE 4 — Pivot to n8n ═════════ -->
+    <section class="slide statement" data-slide="4" data-screen-label="04 Enter n8n" data-section="Enter n8n" data-steps="2">
+      <div class="slide-eyebrow"><span class="num">04</span></div>
+      <div class="stack">
+        <p class="line reveal" data-step="1">Step up to <em>n8n</em>.</p>
+        <p class="line small reveal slow" data-step="2">A more powerful tool for advanced automations — more customisable, modular and deterministic than <span class="burnt">Claude Schedules</span>.</p>
+      </div>
+    </section>
+
+    <!-- ═════════ SLIDE 5 — Standard vs Agentic automation ═════════ -->
+    <section class="slide auto-slide" data-slide="5" data-screen-label="05 Standard vs Agentic" data-section="Two kinds" data-steps="2">
+      <div class="slide-eyebrow"><span class="num">05</span><span class="sep"></span><span class="num">Into n8n</span></div>
+      <div class="auto-head reveal" data-step="1">
+        <h2 class="auto-title">Two kinds of <em>automation</em>. Both can be built with <em>AI</em>.</h2>
+      </div>
+      <div class="auto-cols reveal" data-step="2">
+        <div class="auto-card">
+          <div class="auto-tag">Standard</div>
+          <div class="auto-name">Fixed steps</div>
+          <div class="auto-flow">
+            <span class="nd"></span><span class="ar"></span><span class="nd"></span><span class="ar"></span><span class="nd"></span><span class="ar"></span><span class="nd"></span>
+          </div>
+          <p class="auto-desc">A pre-defined path. Trigger → step → step → done, the <strong>same route every run</strong>. Predictable — and blind. It can't handle anything you didn't script.</p>
+        </div>
+        <div class="auto-card is-agentic">
+          <div class="auto-tag">Agentic</div>
+          <div class="auto-name">Embedded judgment</div>
+          <div class="auto-flow">
+            <span class="nd"></span><span class="ar"></span><span class="ag"></span><span class="ar"></span><span class="nd"></span>
+          </div>
+          <p class="auto-desc">The same flow, with <strong>an agent inside that decides</strong> — reads the context, picks the path, handles the messy middle a fixed flow would choke on.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ SLIDE 6 — When to use what (spectrum) ═════════ -->
+    <section class="slide spec-slide" data-slide="6" data-screen-label="06 n8n vs Schedules" data-section="When to use what" data-steps="2">
+      <div class="slide-eyebrow"><span class="num">06</span><span class="sep"></span><span class="num">When to use what</span></div>
+      <div class="spec-head">
+        <h2 class="spec-title">Same job, <em>two tools</em>.</h2>
+      </div>
+
+      <div class="spec-axis reveal" data-step="1">
+        <div class="spec-end left">
+          <span class="spec-name">Schedule</span>
+        </div>
+        <div class="spec-track">
+          <div class="spec-fill"></div>
+          <div class="spec-knob"></div>
+        </div>
+        <div class="spec-end right">
+          <span class="spec-name">n8n</span>
+        </div>
+      </div>
+
+      <div class="spec-cols reveal" data-step="2">
+        <div class="spec-col left">
+          <h4>Reach for a Schedule when</h4>
+          <div class="spec-chip">The task is mostly judgment — summarise, triage, decide</div>
+          <div class="spec-chip">A daily timer is trigger enough</div>
+          <div class="spec-chip">Every source is already a connector</div>
+          <div class="spec-chip">"Right most mornings" is good enough</div>
+          <div class="spec-chip">Anyone who can write a prompt can build it</div>
+        </div>
+        <div class="spec-col right">
+          <h4>Reach for n8n when</h4>
+          <div class="spec-chip">Mostly mechanical, with judgment at one step</div>
+          <div class="spec-chip">It must react to events, not just a clock</div>
+          <div class="spec-chip">It has to reach systems Cowork can't</div>
+          <div class="spec-chip">It must be production-grade — retries, logs, error paths</div>
+          <div class="spec-chip">Volume is high — don't reason over every row</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ SLIDE 7 — n8n automations built at Aspire ═════════ -->
+    <section class="slide shipping" data-slide="7" data-screen-label="07 Built at Aspire" data-section="Built at Aspire" data-steps="4">
+      <div class="slide-eyebrow"><span class="num">07</span><span class="sep"></span><span class="num">Built at Aspire</span></div>
+      <div class="shipping-head">
+        <h2 class="title cased reveal" data-step="1"><em>n8n</em> automations built at Aspire.</h2>
+      </div>
+      <div class="agents">
+        <div class="agent-card reveal" data-step="2">
+          <div class="agent-top">
+            <div class="agent-name">Ticket Triage</div>
+            <div class="agent-by">Zen &amp; Nikita</div>
+          </div>
+          <ul class="agent-points">
+            <li>Triages <strong>CARE &amp; bug tickets</strong> in Jira</li>
+            <li>Auto-assigns <strong>Tribe, Product Area &amp; Priority</strong></li>
+            <li>Pulls extra context from Slack &amp; HubSpot</li>
+          </ul>
+          <div class="agent-meta">
+            <span class="agent-tag">Jira</span><span class="agent-tag">Slack</span><span class="agent-tag">HubSpot</span>
+          </div>
+        </div>
+        <div class="agent-card reveal" data-step="3">
+          <div class="agent-top">
+            <div class="agent-name">KAREN <span class="agent-acro">Kindly Automated Review &amp; Escalation Node</span></div>
+            <div class="agent-by">Kieran · on CHIP</div>
+          </div>
+          <ul class="agent-points">
+            <li>Reviews <strong>Launchpad tickets</strong> through each approval stage</li>
+            <li>Checks the Confluence FinRisk page against stage-gate criteria</li>
+            <li>Posts a <strong>structured verdict</strong> back to Jira</li>
+          </ul>
+          <div class="agent-meta">
+            <span class="agent-tag">~30 min saved / review</span><span class="agent-tag">Runs 24/7</span>
+          </div>
+        </div>
+        <div class="agent-card reveal" data-step="4">
+          <div class="agent-top">
+            <div class="agent-name">PayOps Suite</div>
+            <div class="agent-by">Kavya &amp; Mandeep</div>
+          </div>
+          <ul class="agent-points">
+            <li>Classifies <strong>600+ escalations / quarter</strong>, weekly root-causes to Slack &amp; Gmail</li>
+            <li>Enriches new tickets for faster resolution</li>
+            <li>Looks up transfer status from Aspire's DB</li>
+          </ul>
+          <div class="agent-meta">
+            <span class="agent-tag">95%+ accuracy</span><span class="agent-tag">Weekly n8n flow</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ SLIDE 8 — Build-along · first n8n flow ═════════ -->
+    <section class="slide statement center" data-slide="8" data-screen-label="08 Build · n8n flow" data-section="Build your own" data-steps="2">
+      <div class="slide-eyebrow"><span class="num">08</span><span class="sep"></span><span class="num">Live build-along</span></div>
+      <div class="stack">
+        <p class="line reveal" data-step="1">Our first n8n flow<em class="subtitle">Morning Brief agent.</em></p>
+        <p class="line small reveal slow" data-step="2">Use this prompt <a class="prompt-link" href="https://docs.google.com/document/d/1ehZiYcQk7pmAGW8BudO5Lks-lQcmmKWoEHN2D2MNJbA/edit?tab=t.lqz2zy3t6gw4" target="_blank" rel="noopener">here</a>.</p>
       </div>
     </section>
 
