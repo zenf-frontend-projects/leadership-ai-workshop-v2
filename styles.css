@@ -471,12 +471,43 @@ html, body {
 .shipping.is-prompts .ship-card .brand-lockup { gap: 12px; }
 .shipping.is-prompts .ship-card .brand-lockup .brand-logo { height: 32px; }
 .shipping.is-prompts .ship-card .wordmark { font-size: 40px; }
-.shipping.is-prompts .ship-card .product-line { margin-top: 28px; }
+.shipping.is-prompts .ship-card .prompt-set {
+  display: flex; flex-direction: column;
+  gap: 22px;
+  margin-top: 26px;
+}
+.shipping.is-prompts .ship-card .prompt {
+  display: flex; flex-direction: column; gap: 9px;
+}
+.shipping.is-prompts .ship-card .prompt-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+  display: inline-flex; align-items: center; gap: 8px;
+  width: fit-content;
+}
+.shipping.is-prompts .ship-card .prompt-tag::before {
+  content: ""; width: 7px; height: 7px; flex: 0 0 auto;
+}
+.shipping.is-prompts .ship-card .prompt-tag.pull { color: var(--ink-mute); }
+.shipping.is-prompts .ship-card .prompt-tag.pull::before { background: var(--ink-mute); }
+.shipping.is-prompts .ship-card .prompt-tag.push { color: var(--accent); }
+.shipping.is-prompts .ship-card .prompt-tag.push::before { background: var(--accent); }
 .shipping.is-prompts .ship-card .blurb {
-  font-size: 26px;
-  line-height: 1.35;
+  font-size: 19px;
+  line-height: 1.42;
   color: var(--ink);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
+}
+.shipping.is-prompts .ship-card .pull-only-note {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 500;
 }
 .ship-card .product-line {
   display: flex; flex-direction: column; gap: 8px;
