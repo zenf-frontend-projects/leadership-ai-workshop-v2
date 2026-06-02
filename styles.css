@@ -840,6 +840,7 @@ html, body {
 .harness-nodes.is-in .harness-node:nth-child(3) { transition-delay:  300ms; }
 .harness-nodes.is-in .harness-node:nth-child(4) { transition-delay:  450ms; }
 .harness-nodes.is-in .harness-node:nth-child(5) { transition-delay:  600ms; }
+.harness-nodes.is-in .harness-node:nth-child(6) { transition-delay:  750ms; }
 .harness-node .label {
   font-family: var(--sans);
   font-weight: 700;
