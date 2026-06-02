@@ -173,6 +173,46 @@ html, body {
 }
 .reveal.struck .strike::after { transform: scaleX(1); }
 
+/* Burnt-orange inline emphasis */
+.burnt { color: #C45A11; font-style: normal; font-weight: 700; }
+
+/* Sales pipeline artifact screenshot */
+.artifact-shot {
+  display: block;
+  max-width: min(820px, 78vw);
+  max-height: 62vh;
+  width: auto;
+  margin: 2.2rem auto 0;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 18px 50px rgba(0,0,0,0.16);
+}
+
+/* Opex dashboard — stacked screenshots */
+.opex-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  width: 100%;
+}
+.opex-shot {
+  display: block;
+  width: auto;
+  max-width: min(1180px, 82vw);
+  max-height: 50vh;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 22px 60px rgba(0,0,0,0.22);
+}
+/* Diagonal cascade: card 1 up-left, card 2 down-right, overlapping */
+.opex-shot:nth-of-type(1) { transform: translateX(-10%); z-index: 1; }
+.opex-shot:nth-of-type(2) { transform: translateX(10%); z-index: 2; margin-top: -12vh; }
+
+/* Inline links */
+.line a { color: var(--accent); text-decoration: underline; text-underline-offset: 0.18em; text-decoration-thickness: 0.06em; transition: color 200ms var(--ease); }
+.line a:hover { color: var(--accent-deep); }
+
 /* "Highlighter" accent — green block behind word */
 .accent-mark {
   position: relative;
