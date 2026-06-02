@@ -95,6 +95,22 @@
     font-family: var(--sans); font-size: 19px; line-height: 1.42;
     color: var(--ink-soft); margin-top: 5px; max-width: 1320px; font-weight: 400;
   }
+  /* Slide 7 — test your tone-of-voice skill (centered prompt card) */
+  .tp-box {
+    width: 100%; max-width: 1360px; margin: 4px auto 0;
+    text-align: left;
+    background: var(--accent-soft); border-left: 4px solid var(--accent);
+    border-radius: 6px; padding: 30px 38px;
+  }
+  .tp-tag {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--accent-deep); font-weight: 600;
+    display: block; margin-bottom: 14px;
+  }
+  .tp-body {
+    font-family: var(--mono); font-size: 22px; line-height: 1.5;
+    color: var(--ink); font-weight: 500; letter-spacing: -0.005em;
+  }
 </style>
 <script type="application/json" id="speaker-notes">[]</script>
 </head>
@@ -202,9 +218,22 @@
       </div>
     </section>
 
-    <!-- ═════════ SLIDE 7 — Marketing skills framework ═════════ -->
-    <section class="slide fw-slide" data-slide="7" data-screen-label="07 Marketing framework" data-section="A framework" data-steps="3">
-      <div class="slide-eyebrow"><span class="num">07</span><span class="sep"></span><span class="num">From Marketing</span></div>
+    <!-- ═════════ SLIDE 7 — Test your tone-of-voice skill ═════════ -->
+    <section class="slide statement center" data-slide="7" data-screen-label="07 Test it" data-section="Try it yourself" data-steps="2">
+      <div class="slide-eyebrow"><span class="num">07</span><span class="sep"></span><span class="num">Test it</span></div>
+      <div class="stack">
+        <p class="line reveal" data-step="1">Let's test your <em>tone of voice</em> skill.</p>
+        <div class="tp-box reveal slow" data-step="2">
+          <span class="tp-tag">Try this prompt</span>
+          <p class="tp-body">Using my-tone-of-voice skill, draft a Slack message to a colleague — someone roughly at my level, not my manager — who said they'd send me their updated pipeline numbers so I could plug them into the dashboard I built. It's now end of day, the numbers are still missing, and I need them in by tomorrow morning. I need to nudge them without being annoying, because (a) I genuinely like this person, and (b) I'll probably need a favour from them again soon.</p>
+        </div>
+        <p class="line small reveal slow" data-step="2">Find this prompt <a class="prompt-link" href="https://docs.google.com/document/d/1ehZiYcQk7pmAGW8BudO5Lks-lQcmmKWoEHN2D2MNJbA/edit?tab=t.lrpuxw1hoeua" target="_blank" rel="noopener">here</a>.</p>
+      </div>
+    </section>
+
+    <!-- ═════════ SLIDE 8 — Marketing skills framework ═════════ -->
+    <section class="slide fw-slide" data-slide="8" data-screen-label="08 Marketing framework" data-section="A framework" data-steps="3">
+      <div class="slide-eyebrow"><span class="num">08</span><span class="sep"></span><span class="num">From Marketing</span></div>
 
       <div class="fw-head reveal" data-step="1">
         <h2 class="fw-title">A skill for every <em>process</em>.</h2>
